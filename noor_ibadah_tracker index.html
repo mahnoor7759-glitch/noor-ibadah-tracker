@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noor — My Ibadah Tracker</title>
+<style>
+:root{--green:#1e6b50;--deep:#164c3b;--mint:#e8f4ed;--cream:#fbfaf5;--gold:#c49b52;--ink:#24352d;--muted:#738078;--line:#e2e9e3;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:linear-gradient(135deg,#164c3b,#2d8061);color:white;padding:28px 20px 34px}
+.top{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:14px;letter-spacing:2px;text-transform:uppercase;opacity:.9}.date{font-size:13px;opacity:.85}
+.hero{max-width:1050px;margin:26px auto 0}.eyebrow{color:#d7eadd;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}.hero h1{font-family:Georgia,serif;font-size:clamp(30px,5vw,44px);font-weight:500;margin:8px 0}.hero p{max-width:580px;color:#e2eee6;line-height:1.6;margin:0}
+main{max-width:1050px;margin:-17px auto 0;padding:0 18px 40px}.summary{background:white;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 25px #193f2b0b;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}.summary h2{font-size:16px;margin:0 0 7px}.summary p{font-size:13px;color:var(--muted);margin:0}.percent{font-size:28px;color:var(--green);font-weight:700}.bar{height:8px;background:#edf1ed;border-radius:99px;overflow:hidden;margin-top:14px}.bar span{height:100%;display:block;width:0;background:linear-gradient(90deg,#398c65,#b6d7a9);transition:width .2s}
+.date-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 16px;flex-wrap:wrap}.date-row label{font-size:13px;font-weight:650}.date-row input{border:1px solid var(--line);background:white;border-radius:10px;padding:10px;color:var(--ink);font:inherit}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 12px}.section-head h2{font-family:Georgia,serif;font-weight:500;font-size:23px;margin:0}.section-head small{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:white;border:1px solid var(--line);border-radius:15px;padding:16px;min-width:0}.card-title{display:flex;align-items:center;gap:11px}.symbol{width:39px;height:39px;border-radius:12px;background:var(--mint);display:grid;place-items:center;font-size:19px;flex-shrink:0}.card h3{font-size:15px;margin:0 0 3px}.card .hint{font-size:12px;color:var(--muted);line-height:1.4}.check{margin-left:auto;appearance:none;width:24px;height:24px;border:1.7px solid #c8d4cb;border-radius:8px;cursor:pointer;flex-shrink:0;display:grid;place-items:center;background:#fff}.check:checked{background:var(--green);border-color:var(--green)}.check:checked:after{content:"✓";color:white;font-weight:800;font-size:15px}
+.prayers{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.prayer{border:1px solid var(--line);background:white;border-radius:14px;padding:14px 8px;text-align:center}.prayer .picon{font-size:20px}.prayer h3{font-size:13px;margin:7px 0 10px}.prayer .check{margin:0 auto}
+.weekly{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.week-card{background:white;border:1px solid var(--line);border-radius:15px;padding:16px}.week-top{display:flex;gap:10px;align-items:center}.week-top .symbol{background:#f8f0df}.week-top h3{margin:0;font-size:15px}.week-top p{font-size:12px;color:var(--muted);margin:4px 0 0}.counter{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px;padding-top:13px;border-top:1px solid var(--line)}.counter strong{font-size:13px}.counter-controls{display:flex;align-items:center;gap:10px}.counter button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:#f8fbf8;color:var(--green);font-size:19px;cursor:pointer}.count{min-width:35px;text-align:center;font-weight:750;color:var(--green)}
+.week-days{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}.day-pill{border:1px solid var(--line);background:#fafcf9;border-radius:9px;padding:7px 9px;font-size:11px;cursor:pointer;color:var(--muted)}.day-pill.active{background:var(--mint);border-color:#a8cbb5;color:var(--deep);font-weight:700}
+.notes{width:100%;min-height:86px;resize:vertical;border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit;font-size:13px;line-height:1.5;color:var(--ink);background:#fcfdfb;margin-top:12px}.footer{margin-top:26px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:10px;background:white;padding:9px 12px;color:var(--green);font:inherit;font-size:12px;cursor:pointer}.btn.primary{background:var(--green);color:white;border-color:var(--green)}.toast{font-size:12px;color:var(--green);min-height:18px;margin-top:6px}
+@media(max-width:640px){.grid,.weekly{grid-template-columns:1fr}.prayers{gap:6px}.prayer{padding:12px 4px}.prayer h3{font-size:11px}.summary{padding:16px}.hero{margin-top:22px}.top{align-items:flex-start}.date{max-width:130px;text-align:right}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div class="brand">☾ Noor · Ibadah journal</div><div class="date" id="headerDate"></div></div>
+ <div class="hero"><div class="eyebrow">Small steps, sincere intentions</div><h1>Make space for barakah.</h1><p>A gentle place to keep track of your daily worship, weekly Sunnah goals, learning, and reflections — one day at a time, without perfectionism.</p></div>
+</header>
+<main>
+ <section class="summary">
+  <div><h2 id="summaryTitle">Today's spiritual check-in</h2><p id="summaryText">Every sincere effort matters. Begin where you are.</p><div class="bar"><span id="progressBar"></span></div></div>
+  <div class="percent" id="progressPercent">0%</div>
+ </section>
+ <div class="date-row"><label for="trackerDate">Your check-in date</label><div class="actions"><input type="date" id="trackerDate"><button class="btn" id="todayBtn">Today</button><button class="btn" id="exportBtn">Export my data</button></div></div>
+ <div class="section-head"><h2>Daily worship</h2><small>Tick as you complete each goal</small></div>
+ <div class="section-head"><h2 style="font-size:19px">The five daily prayers</h2><small id="prayerCount">0 of 5</small></div>
+ <div class="prayers" id="prayers"></div>
+ <div class="section-head"><h2>Daily adhkar & good deeds</h2><small id="dailyCount">0 completed</small></div>
+ <div class="grid" id="dailyGrid"></div>
+ <div class="section-head"><h2>Weekly intentions</h2><small id="weeklyCount">0 goals met</small></div>
+ <div class="weekly" id="weeklyGrid"></div>
+ <div class="section-head"><h2>Qur’an journaling</h2><small>Reflect, learn, return</small></div>
+ <section class="card">
+  <div class="card-title"><div class="symbol">📖</div><div><h3>Ayah & reflection</h3><div class="hint">Write an ayah, what it teaches you, and one action you want to take.</div></div></div>
+  <textarea class="notes" id="journal" placeholder="Surah / ayah…&#10;What stood out to me?&#10;How can I live by this?"></textarea>
+  <div class="hint" style="margin-top:7px">Your journal is saved in this browser on this device.</div>
+ </section>
+ <div class="section-head"><h2>A gentle reminder</h2></div>
+ <section class="card"><p style="font-family:Georgia,serif;font-size:18px;line-height:1.6;margin:0">“And He is with you wherever you are.”</p><p class="hint" style="margin:7px 0 0">Qur’an 57:4 · Return to Allah with hope, gratitude, and sincerity.</p></section>
+ <div class="footer">Your tracker is private to this browser and uses local storage. Export a backup regularly if you want to keep your records.<br>May Allah accept your efforts, place barakah in your time, and make consistency easy. Ameen.</div>
+ <div class="toast" id="toast" aria-live="polite"></div>
+</main>
+<script>
+const prayers=[["Fajr","🌅"],["Dhuhr","☀️"],["Asr","🌤️"],["Maghrib","🌇"],["Isha","🌙"]];
+const daily=[
+ {id:"morning",title:"Morning adhkar",hint:"Remember Allah at the start of your day",icon:"🌄"},
+ {id:"evening",title:"Evening adhkar",hint:"End the day in remembrance",icon:"🌆"},
+ {id:"istighfar",title:"100× Istighfar",hint:"Astaghfirullah — track your daily intention",icon:"🤍"},
+ {id:"darood",title:"500× Darood Sharif",hint:"Send blessings upon Prophet Muhammad ﷺ",icon:"🌸"},
+ {id:"charity",title:"One act of charity",hint:"Give what you can, even a small amount or kind deed",icon:"🌱"}
+];
+const weekly=[
+ {id:"tahajjud",title:"Tahajjud",hint:"Aim for 3 times this week",icon:"🌙",target:3,unit:"nights"},
+ {id:"fast",title:"Monday & Thursday fast",hint:"Tick each day you observe a fast",icon:"🌿",target:2,unit:"fasts",days:["Mon","Thu"]},
+ {id:"learning",title:"Islamic book or lecture",hint:"Complete one book section or lecture",icon:"📚",target:1,unit:"session"},
+ {id:"roots",title:"Arabic 3-root word study",hint:"Study three Arabic root words",icon:"🔤",target:3,unit:"roots"}
+];
+const $=id=>document.getElementById(id);
+const localToday=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const weekKey=date=>{let d=new Date(date+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const load=()=>{try{return JSON.parse(localStorage.getItem("noorIbadahTracker")||"{}")}catch(e){return {}}};
+let store=load(), selectedDate=localToday();
+function ensureDay(date){if(!store.days)store.days={};if(!store.days[date])store.days[date]={checks:{},journal:""};return store.days[date]}
+function ensureWeek(date){if(!store.weeks)store.weeks={};const k=weekKey(date);if(!store.weeks[k])store.weeks[k]={counts:{},days:{}};return store.weeks[k]}
+function save(){localStorage.setItem("noorIbadahTracker",JSON.stringify(store));renderSummary()}
+function render(){
+ $("headerDate").textContent=new Date(selectedDate+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric",year:"numeric"});
+ const day=ensureDay(selectedDate);const week=ensureWeek(selectedDate);
+ $("prayers").innerHTML=prayers.map(([name,icon])=>`<div class="prayer"><div class="picon">${icon}</div><h3>${name}</h3><input class="check" type="checkbox" aria-label="${name} completed" data-daily="prayer-${name}" ${day.checks["prayer-"+name]?"checked":""}></div>`).join("");
+ $("dailyGrid").innerHTML=daily.map(x=>`<label class="card" style="display:flex;align-items:center;gap:12px;cursor:pointer"><div class="symbol">${x.icon}</div><div style="flex:1"><h3>${x.title}</h3><div class="hint">${x.hint}</div></div><input class="check" type="checkbox" aria-label="${x.title} completed" data-daily="${x.id}" ${day.checks[x.id]?"checked":""}></label>`).join("");
+ $("weeklyGrid").innerHTML=weekly.map(x=>{let count=week.counts[x.id]||0;let pills=x.days?`<div class="week-days">${x.days.map(d=>`<button class="day-pill ${week.days[d]?"active":""}" data-weekday="${d}">${d} ${week.days[d]?"✓":""}</button>`).join("")}</div>`:"";return `<div class="week-card"><div class="week-top"><div class="symbol">${x.icon}</div><div><h3>${x.title}</h3><p>${x.hint}</p></div></div><div class="counter"><strong>${x.unit} completed</strong><div class="counter-controls"><button data-minus="${x.id}" aria-label="Decrease ${x.title}">−</button><span class="count">${count} / ${x.target}</span><button data-plus="${x.id}" aria-label="Increase ${x.title}">+</button></div></div>${pills}</div>`}).join("");
+ $("journal").value=day.journal||"";
+ document.querySelectorAll("[data-daily]").forEach(el=>el.addEventListener("change",()=>{day.checks[el.dataset.daily]=el.checked;save();updateCounts()}));
+ document.querySelectorAll("[data-plus]").forEach(el=>el.addEventListener("click",()=>{let id=el.dataset.plus;week.counts[id]=Math.min((week.counts[id]||0)+1,99);save();render()}));
+ document.querySelectorAll("[data-minus]").forEach(el=>el.addEventListener("click",()=>{let id=el.dataset.minus;week.counts[id]=Math.max((week.counts[id]||0)-1,0);save();render()}));
+ document.querySelectorAll("[data-weekday]").forEach(el=>el.addEventListener("click",()=>{let id=el.dataset.weekday;week.days[id]=!week.days[id];week.counts.fast=Number(!!week.days.Mon)+Number(!!week.days.Thu);save();render()}));
+ $("journal").oninput=()=>{day.journal=$("journal").value;save()};
+ updateCounts();renderSummary();
+}
+function updateCounts(){
+ const day=ensureDay(selectedDate),week=ensureWeek(selectedDate);
+ const p=prayers.filter(([n])=>day.checks["prayer-"+n]).length;
+ const d=daily.filter(x=>day.checks[x.id]).length;
+ $("prayerCount").textContent=`${p} of 5`;$("dailyCount").textContent=`${d} of ${daily.length} completed`;
+ const met=weekly.filter(x=>(week.counts[x.id]||0)>=x.target).length;
+ $("weeklyCount").textContent=`${met} of ${weekly.length} goals met`;
+}
+function renderSummary(){
+ if(!selectedDate)return;
+ const day=ensureDay(selectedDate),week=ensureWeek(selectedDate);
+ const allDaily=prayers.length+daily.length,doneDaily=prayers.filter(([n])=>day.checks["prayer-"+n]).length+daily.filter(x=>day.checks[x.id]).length;
+ const dailyPct=Math.round(doneDaily/allDaily*100);
+ $("progressPercent").textContent=dailyPct+"%";$("progressBar").style.width=dailyPct+"%";
+ $("summaryText").textContent=dailyPct===100?"Alhamdulillah — all your daily goals are checked off.":dailyPct>=60?"MashaAllah, you're making steady progress. Keep going gently.": "Every sincere effort matters. Begin where you are.";
+ $("summaryTitle").textContent=new Date(selectedDate+"T12:00:00").toLocaleDateString(undefined,{month:"long",day:"numeric"})+" · Daily progress";
+ updateCounts();
+}
+$("trackerDate").value=selectedDate;
+$("trackerDate").addEventListener("change",e=>{if(e.target.value){selectedDate=e.target.value;render()}});
+$("todayBtn").addEventListener("click",()=>{selectedDate=localToday();$("trackerDate").value=selectedDate;render()});
+$("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(store,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="noor-ibadah-tracker-backup.json";a.click();URL.revokeObjectURL(url);$("toast").textContent="Backup exported. Keep the file somewhere safe."});
+render();
+</script>
+</body>
+</html>
